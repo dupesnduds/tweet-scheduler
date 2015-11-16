@@ -2,10 +2,28 @@ var express = require('express');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter');
 var config = require('./config.js');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 var app = express();
 
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+var hbs = require('express-hbs');
+
+// Use `.hbs` for extensions and find partials in `views/partials`.
+app.engine('hbs', hbs.express4({
+  partialsDir: __dirname + '/views/partials'
+}));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views');
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+  store: new FileStore({
+    path: __dirname + '/data'
+  })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -20,7 +38,8 @@ passport.use(new TwitterStrategy({
     if (!user) {
       user = {
         twitterId: profile.id,
-        twitterTokenSecret: tokenSecret
+        twitterTokenSecret: tokenSecret,
+        username: profile.username
       }
 
       UserStore.saveUser(user);
@@ -54,8 +73,20 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedi
   res.redirect('/');
 });
 
+var securedRoute = function(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+
+  res.redirect('/auth/twitter');
+};
+
+app.use(securedRoute);
+
 app.get('/', function(req, res) {
-  res.send(req.user);
+  res.render('index', {
+    user: req.user
+  });
 });
 
 app.listen(8080, function() {
