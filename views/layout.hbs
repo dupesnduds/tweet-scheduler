@@ -3,11 +3,28 @@
 <head>
   <title></title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-GHW2S7IZAQe8+YkyL99LyDj1zdWXSPOG+JZafCtKiSc= sha512-vxM32w6T7zJ83xOQ6FT4CEFnlasqmkcB0+ojgbI0N6ZtSxYvHmT7sX2icN07TqEqr5wdKwoLkmB8sAsGAjCJHg==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
 </head>
 <body>
   <div class="container">
     <h1>Tweet Scheduler</h1>
     {{{body}}}
   </div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript">
+    $('[data-datepicker]').datetimepicker({
+      icons: {
+        time: "fa fa-clock-o",
+        date: "fa fa-calendar",
+        up: "fa fa-arrow-up",
+        down: "fa fa-arrow-down",
+        previous: "fa fa-arrow-left",
+        next: "fa fa-arrow-right"
+      }
+    });
+  </script>
 </body>
 </html>
