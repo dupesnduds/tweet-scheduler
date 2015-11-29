@@ -4,10 +4,18 @@ var TwitterStrategy = require('passport-twitter');
 var config = require('./config.js');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var bodyParser = require('body-parser');
+var moment = require('moment-timezone');
 
 var app = express();
 
 var hbs = require('express-hbs');
+
+hbs.registerHelper('format_date', function(date) {
+  date = moment(date);
+
+  return date.from(moment.tz('America/Montreal'));
+});
 
 // Use `.hbs` for extensions and find partials in `views/partials`.
 app.engine('hbs', hbs.express4({
@@ -80,12 +88,24 @@ var securedRoute = function(req, res, next) {
 
   res.redirect('/auth/twitter');
 };
-
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(securedRoute);
+
+var moment = require('moment-timezone');
+var TweetStore = require('./stores/TweetStore');
+app.post('/tweets', function(req, res) {
+  TweetStore.scheduleTweet(req.user.twitterId ,{
+    date: moment.tz(req.body.date, "America/Montreal"),
+    tweet: req.body.tweet
+  });
+
+  res.redirect('/');
+});
 
 app.get('/', function(req, res) {
   res.render('index', {
-    user: req.user
+    user: req.user,
+    tweets: TweetStore.getScheduledTweet(req.user.twitterId)
   });
 });
 
