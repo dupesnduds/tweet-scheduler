@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "cron": "^1.0.9",
     "express": "^4.13.3",
     "express-hbs": "^0.8.4",
     "express-session": "^1.12.1",
@@ -19,6 +20,8 @@
     "moment-timezone": "^0.4.1",
     "passport": "^0.3.0",
     "passport-twitter": "^1.0.3",
-    "session-file-store": "0.0.22"
+    "session-file-store": "0.0.22",
+    "twit": "^2.1.1",
+    "twitter": "^1.2.5"
   }
 }

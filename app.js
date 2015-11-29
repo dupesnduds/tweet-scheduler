@@ -47,7 +47,9 @@ passport.use(new TwitterStrategy({
       user = {
         twitterId: profile.id,
         twitterTokenSecret: tokenSecret,
-        username: profile.username
+        username: profile.username,
+        twitterToken: token,
+        twitterTokenSecret: tokenSecret
       }
 
       UserStore.saveUser(user);
