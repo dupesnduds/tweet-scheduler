@@ -12,3 +12,8 @@ module.exports.scheduleTweet = function(userId, tweet, scheduleDate) {
   });
 };
 
+module.exports.getTweetsScheduledBefore = function(date) {
+  return db('tweets').filter((tweet) => {
+    return tweet.scheduleDate <= date
+  });
+};

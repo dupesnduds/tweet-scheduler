@@ -94,10 +94,10 @@ app.use(securedRoute);
 var moment = require('moment-timezone');
 var TweetStore = require('./stores/TweetStore');
 app.post('/tweets', function(req, res) {
-  TweetStore.scheduleTweet(req.user.twitterId ,{
-    date: moment.tz(req.body.date, "America/Montreal"),
-    tweet: req.body.tweet
-  });
+  TweetStore.scheduleTweet(req.user.twitterId,
+    req.body.tweet,
+    moment.tz(req.body.date, "America/Montreal").valueOf()
+  );
 
   res.redirect('/');
 });
