@@ -37,8 +37,7 @@ app.use(passport.session());
 
 passport.use(new TwitterStrategy({
     consumerKey: config.TWITTER_CONSUMER_KEY,
-    consumerSecret: config.TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://127.0.0.1:8080/auth/twitter/callback"
+    consumerSecret: config.TWITTER_CONSUMER_SECRET
   },
   function(token, tokenSecret, profile, done) {
     var user = UserStore.findUser(profile.id);
