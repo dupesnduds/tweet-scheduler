@@ -114,3 +114,6 @@ app.get('/', function(req, res) {
 app.listen(8080, function() {
   console.log('Server listening on port: ' + this.address().port);
 });
+
+require('./cron/index');
+
