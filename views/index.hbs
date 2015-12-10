@@ -1,36 +1,6 @@
-{{!< layout}}
+{{!< base}}
 
-@{{user.username}}
-<hr/>
-<div class="row">
-  <div class="col-md-4">
-    <h3>New tweet</h3>
-    <form method="POST" action="/tweets">
-      <fieldset class="form-group">
-        <label>Tweet</label>
-        <textarea name="tweet" class="form-control"></textarea>
-      </fieldset>
-      <fieldset class="form-group">
-        <label>Schedule date</label>
-        <div class='input-group date' data-datepicker="data-datepicker">
-            <input name="date" type='text' class="form-control" />
-            <span class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </span>
-        </div>
-      </fieldset>
-      <br/>
-      <button class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-  <div class="col-md-8">
-    <h3>Scheduled Tweet</h3>
-    {{#each tweets}}
-      <div>
-        <span class="label label-info pull-right">{{format_date scheduleDate}}</span>
-        {{tweet}}
-        <hr/>
-      </div>
-    {{/each}}
-  </div>
+<div class="container text-center">
+  <br/><br/><br/><br/><br/><br/>
+  <a href="/auth/twitter" class="btn btn-primary">Login with twitter</a>
 </div>

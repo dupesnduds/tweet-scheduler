@@ -29,8 +29,9 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   store: new FileStore({
-    path: __dirname + '/data'
-  })
+    path: __dirname + '/sessions'
+  }),
+  ttl: 86400
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -90,6 +91,14 @@ var securedRoute = function(req, res, next) {
   res.redirect('/auth/twitter');
 };
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/', function(req, res) {
+  if (req.user) {
+    return res.redirect('/scheduler');
+  }
+  res.render('index');
+});
+
 app.use(securedRoute);
 
 var moment = require('moment-timezone');
@@ -100,11 +109,11 @@ app.post('/tweets', function(req, res) {
     moment.tz(req.body.date, "America/Montreal").valueOf()
   );
 
-  res.redirect('/');
+  res.redirect('/scheduler');
 });
 
-app.get('/', function(req, res) {
-  res.render('index', {
+app.get('/scheduler', function(req, res) {
+  res.render('scheduler', {
     user: req.user,
     tweets: TweetStore.getScheduledTweet(req.user.twitterId)
   });
