@@ -1,3 +1,4 @@
+var uuid = require('node-uuid');
 var db = require('../init-db');
 
 module.exports.getScheduledTweet = function(userId) {
@@ -6,10 +7,15 @@ module.exports.getScheduledTweet = function(userId) {
 
 module.exports.scheduleTweet = function(userId, tweet, scheduleDate) {
   return db('tweets').push({
+    uuid: uuid.v4(),
     userId: userId,
     tweet: tweet,
     scheduleDate: scheduleDate
   });
+};
+
+module.exports.getScheduledTweetByUuid = function(uuid) {
+  return db('tweets').find({uuid: uuid});
 };
 
 module.exports.removeTweet = function(tweet) {

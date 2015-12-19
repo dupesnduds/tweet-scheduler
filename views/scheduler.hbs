@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-md-4">
     <h3>New tweet</h3>
-    <form method="POST" action="/tweets">
+    <form method="POST" action="/scheduler/tweets">
       <fieldset class="form-group">
         <label>Tweet</label>
         <textarea name="tweet" class="form-control"></textarea>
@@ -27,9 +27,15 @@
     <h3>Scheduled Tweet</h3>
     {{#each tweets}}
       <div>
-        <span class="label label-info pull-right">{{format_date scheduleDate}}</span>
+        <div class="pull-right">
+          <span class="label label-info">{{format_date scheduleDate}}</span>
+          <br/>
+          <br/>
+          <a href="/scheduler/tweets/{{ uuid }}/delete" class="btn btn-danger btn-sm">Cancel</a>
+        </div>
         {{tweet}}
-        <hr/>
+        <div class="clearfix"></div>
+        <hr />
       </div>
     {{/each}}
   </div>

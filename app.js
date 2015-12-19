@@ -103,7 +103,15 @@ app.use(securedRoute);
 
 var moment = require('moment-timezone');
 var TweetStore = require('./stores/TweetStore');
-app.post('/tweets', function(req, res) {
+
+app.get('/scheduler', function(req, res) {
+  res.render('scheduler', {
+    user: req.user,
+    tweets: TweetStore.getScheduledTweet(req.user.twitterId)
+  });
+});
+
+app.post('/scheduler/tweets', function(req, res) {
   TweetStore.scheduleTweet(req.user.twitterId,
     req.body.tweet,
     moment.tz(req.body.date, "America/Montreal").valueOf()
@@ -112,11 +120,12 @@ app.post('/tweets', function(req, res) {
   res.redirect('/scheduler');
 });
 
-app.get('/scheduler', function(req, res) {
-  res.render('scheduler', {
-    user: req.user,
-    tweets: TweetStore.getScheduledTweet(req.user.twitterId)
-  });
+app.get('/scheduler/tweets/:uuid/delete', function(req, res) {
+  var tweet = TweetStore.getScheduledTweetByUuid(req.params.uuid);
+
+  TweetStore.removeTweet(tweet);
+
+  res.redirect('/scheduler');
 });
 
 app.listen(8080, function() {
